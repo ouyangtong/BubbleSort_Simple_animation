@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BubbleSort</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .bubbleBox {
+            height: 400px;
+            width: 1100px;
+            background: #a8a19a;
+            margin: 100px auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .bubbles {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -10px 0 0 -150px;
+        }
+
+        .ele {
+            color: #ede300;
+            background: #4947cd;
+            text-align: center;
+            line-height: 22px;
+            float: left;
+            width: 22px;
+            height: 22px;
+            margin-left: 10px;
+            list-style: none;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="bubbleBox" id="bubble_box">
+    <ul class="bubbles" id="circle">
+        <li class="ele" style="margin-left: 0;">1</li>
+        <li class="ele">2</li>
+        <li class="ele">3</li>
+        <li class="ele">4</li>
+        <li class="ele">5</li>
+        <li class="ele">6</li>
+        <li class="ele">7</li>
+        <li class="ele">8</li>
+        <li class="ele">9</li>
+        <li class="ele">10</li>
+    </ul>
+    <input type="text" value="请输入需要排序的数字，并以‘,’隔开...">
+
+</div>
+<script>
+    var circle = document.getElementById("circle");
+
+    Array.prototype.bubble_sort = function() {
+        var i, j, temp;
+        for (i = 0; i < this.length - 1; i++)
+            for (j = 0; j < this.length - 1 - i; j++)
+                if (this[j] > this[j + 1]) {
+                    temp = this[j];
+                    this[j] = this[j + 1];
+                    this[j + 1] = temp;
+                }
+        return this;
+    };
+
+</script>
+</body>
+</html>
