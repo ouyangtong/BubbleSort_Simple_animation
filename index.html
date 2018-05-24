@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>BubbleSort</title>
     <style>
-        * {
+        *{
             padding: 0;
             margin: 0;
         }
@@ -13,7 +13,7 @@
             height: 400px;
             width: 1100px;
             background: #a8a19a;
-            margin: 100px auto;
+            margin: 100px auto 20px auto;
             text-align: center;
             position: relative;
         }
@@ -22,54 +22,228 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            margin: -10px 0 0 -150px;
+            margin: -15px 0 0 -200px;
+            padding-right: 10px;
         }
 
         .ele {
+            position: relative;
             color: #ede300;
             background: #4947cd;
             text-align: center;
-            line-height: 22px;
+            line-height: 30px;
             float: left;
-            width: 22px;
-            height: 22px;
+            width: 30px;
+            height: 30px;
             margin-left: 10px;
             list-style: none;
             border-radius: 50%;
+        }
+
+        .exchange1{
+            -webkit-animation: exchange1 2.5s;
+            -o-animation: exchange1 2.5s;
+            animation: exchange1 2.5s;
+            animation-fill-mode: forwards;
+
+        }
+
+        .exchange2{
+            -webkit-animation: exchange2 2.5s;
+            -o-animation: exchange2 2.5s;
+            animation: exchange2 2.5s;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes exchange1 {
+            0%{
+                top: 0;
+                background: #67CDC2;
+                left: 0;
+
+            }
+            25%{
+                top: -50px;
+                background: #67CDC2;
+            }
+            50%{
+                left: 40px;
+                top:-50px;
+                background: #67CDC2;
+            }
+            100%{
+                top: 0;
+                left: 40px;
+                background: #4947cd;
+            }
+        }
+
+        @keyframes exchange2 {
+            0%{
+                top: 0;
+                background: #67CDC2;
+                left: 0;
+            }
+            25%{
+                top: 50px;
+                background: #67CDC2;
+            }
+            50%{
+                top: 50px;
+                left: -40px;
+                background: #67CDC2;
+            }
+            100%{
+                top: 0;
+                left: -40px;
+                background: #4947cd;
+            }
+        }
+
+        .operation{
+            width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .in {
+            margin-top: 10px
         }
     </style>
 </head>
 <body>
 <div class="bubbleBox" id="bubble_box">
     <ul class="bubbles" id="circle">
-        <li class="ele" style="margin-left: 0;">1</li>
-        <li class="ele">2</li>
-        <li class="ele">3</li>
-        <li class="ele">4</li>
+        <li class="ele">122</li>
+        <li class="ele">22</li>
+        <li class="ele">333</li>
+        <li class="ele">41</li>
         <li class="ele">5</li>
-        <li class="ele">6</li>
-        <li class="ele">7</li>
-        <li class="ele">8</li>
-        <li class="ele">9</li>
+        <li class="ele">64</li>
+        <li class="ele">723</li>
+        <li class="ele">82</li>
+        <li class="ele">91</li>
         <li class="ele">10</li>
     </ul>
-    <input type="text" value="请输入需要排序的数字，并以‘,’隔开...">
 
+</div>
+<div class="operation">
+    <p>请输入需要排序的数字，并以逗号隔开，或者直接输入希望产生随机数的个数。</p>
+    <input type="text" class="in" id="inputbox" value="请输入...">
+    <button type="submit">开始排序</button>
 </div>
 <script>
     var circle = document.getElementById("circle");
+    var inputbox = document.getElementById("inputbox");
+    inputbox.addEventListener("focus",function () {
+        if (this.value==="请输入..."){
+            this.value = "";
+        }
+    });
 
-    Array.prototype.bubble_sort = function() {
-        var i, j, temp;
-        for (i = 0; i < this.length - 1; i++)
-            for (j = 0; j < this.length - 1 - i; j++)
-                if (this[j] > this[j + 1]) {
-                    temp = this[j];
-                    this[j] = this[j + 1];
-                    this[j + 1] = temp;
-                }
-        return this;
-    };
+    inputbox.addEventListener("blur",function () {
+        if (this.value===""){
+            this.value = "请输入..."
+        }
+    });
+    ele_arry = document.querySelectorAll("li.ele");
+    ele_arry = Array.apply(null,ele_arry);
+
+    function hasClass(element, cName) {
+        return !!element.className.match(new RegExp("(\\s|^)" + cName + "(\\s|$)")); // ( \\s|^ ) 判断前面是否有空格
+        // （\\s | $ ）判断后面是否有空格 两个感叹号为转换为布尔值 以方便做判断
+    }
+    function addClass(element,cName) {
+        if (!hasClass(element,cName))
+            element.className +=" " + cName;
+    }
+
+    function removeClass(element,cName) {
+        if(hasClass(element,cName))
+            element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " ");
+    }
+
+    // function sleep(ms) {
+    //     return new Promise(resolve => setTimeout(resolve, ms))
+    // }
+
+    function exchange(ele1,ele2) {
+        let temp;
+        addClass(ele1,"exchange1");
+        addClass(ele2,"exchange2");
+        // await sleep(2000);
+        setTimeout(function () {
+            removeClass(ele1,"exchange1");
+            removeClass(ele2,"exchange2");
+            ele2.parentNode.insertBefore(ele2,ele1);
+        },2000);
+
+    }
+
+    function Bubble_sort_animation(arr) {
+        let arr_inner = [];
+        let temp;
+        arr.forEach(function (v,i) {
+            arr_inner[i] = v.innerHTML;
+        });
+        var j = 0;
+        for (let i = 0;i < arr.length-1; i++)
+           setTimeout(function () {
+               if (arr_inner[j]>arr_inner[j+1]){
+                   exchange(arr[j],arr[j+1]);
+                   temp = arr[j];
+                   arr[j] = arr[j+1];
+                   arr[j+1] = temp;
+               }
+           },2000)
+        // for (let j = 0; j < arr.length-1; j++);
+
+
+    }
+    // function Bubble_sort_animation(arr) {
+    //     let arr_inner = [];
+    //     let temp;
+    //     let count=0;
+    //     arr.forEach(function (v,i) {
+    //         arr_inner[i] = v.innerHTML;
+    //     });
+    //     for (var i = 0;i < arr.length-1; i++)
+    //         for (var j = 0; j < arr.length-1; j++)
+    //             (function (j) {
+    //                 if (arr_inner[j]>arr_inner[j+1]){
+    //
+    //                     end_f = arr[j].addEventListener('animationend',function () {
+    //                         exchange(arr[j],arr[j+1]);
+    //                         temp = arr[j];
+    //                         arr[j] = arr[j+1];
+    //                         arr[j+1] = temp;
+    //                         removeClass(arr[j],"exchange1");
+    //                         removeClass(arr[j+1],"exchange2");
+    //                         ele2.parentNode.insertBefore(arr[j],arr[j+1]);
+    //                     });
+    //
+    //                 }
+    //             })(j)
+    //
+
+    // }
+
+
+
+    // setTimeout(Bubble_sort_animation(ele_arry),3000) ;
+
+
+    // Array.prototype.bubble_sort = function () {
+    //     var i, j, temp;
+    //     for (i = 0; i < this.length - 1; i++)
+    //         for (j = 0; j < this.length - 1 - i; j++)
+    //             if (this[j] > this[j + 1]) {
+    //                 temp = this[j];
+    //                 this[j] = this[j + 1];
+    //                 this[j + 1] = temp;
+    //             }
+    //     return this;
+    // };
 
 </script>
 </body>
