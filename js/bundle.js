@@ -23,7 +23,7 @@
 
     start_sort.addEventListener("click",function () {
         input_arr = inputbox.value;
-        input_arr = input_arr.split(",");
+        input_arr = ReplaceChina(input_arr).split(",");
         clearUl();              //清空ul下的li元素
         if (input_arr === "请输入..."||new RegExp("^[ ]+$").test(input_arr.toString()))        //判断输入是否为空或者全是空格
             alert("error:请输入需要排序的数字，并以逗号隔开，或者直接输入希望产生随机数的个数。");
@@ -51,6 +51,17 @@
         }
 
     });
+
+    function ReplaceChina(obj) {
+        let oldValue=obj;
+        while(oldValue.indexOf("，")!==-1){  //寻找每一个中文逗号，并替换
+            obj=oldValue.replace(/，/ig,',');
+            oldValue=obj;
+        }
+        obj = oldValue;
+        return obj;
+
+    }
 
     function clearUl() {
         if (circle.innerHTML = '');
