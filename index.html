@@ -163,12 +163,8 @@
             element.className = element.className.replace(new RegExp("(\\s|^)" + cName + "(\\s|$)"), " ");
     }
 
-    // function sleep(ms) {
-    //     return new Promise(resolve => setTimeout(resolve, ms))
-    // }
 
     function exchange(ele1,ele2) {
-        let temp;
         addClass(ele1,"exchange1");
         addClass(ele2,"exchange2");
         // await sleep(2000);
@@ -177,73 +173,37 @@
             removeClass(ele2,"exchange2");
             ele2.parentNode.insertBefore(ele2,ele1);
         },2000);
-
     }
 
-    function Bubble_sort_animation(arr) {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+
+    async function Bubble_sort_animation(arr) {
         let arr_inner = [];
         let temp;
-        arr.forEach(function (v,i) {
+        arr.forEach(function (v, i) {
             arr_inner[i] = v.innerHTML;
         });
-        var j = 0;
-        for (let i = 0;i < arr.length-1; i++)
-           setTimeout(function () {
-               if (arr_inner[j]>arr_inner[j+1]){
-                   exchange(arr[j],arr[j+1]);
-                   temp = arr[j];
-                   arr[j] = arr[j+1];
-                   arr[j+1] = temp;
-               }
-           },2000)
-        // for (let j = 0; j < arr.length-1; j++);
-
-
+        for (let i = 0; i < arr.length - 1; i++)
+            for (let j = 0; j < arr.length - 1; j++) {
+                if (arr_inner[j] > parseInt(arr_inner[j + 1])) {
+                    exchange(arr[j], arr[j + 1]);
+                    await sleep(2100);
+                    temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    arr.forEach(function (v, i) {
+                        arr_inner[i] = v.innerHTML;
+                    });
+                }
+            }
     }
-    // function Bubble_sort_animation(arr) {
-    //     let arr_inner = [];
-    //     let temp;
-    //     let count=0;
-    //     arr.forEach(function (v,i) {
-    //         arr_inner[i] = v.innerHTML;
-    //     });
-    //     for (var i = 0;i < arr.length-1; i++)
-    //         for (var j = 0; j < arr.length-1; j++)
-    //             (function (j) {
-    //                 if (arr_inner[j]>arr_inner[j+1]){
-    //
-    //                     end_f = arr[j].addEventListener('animationend',function () {
-    //                         exchange(arr[j],arr[j+1]);
-    //                         temp = arr[j];
-    //                         arr[j] = arr[j+1];
-    //                         arr[j+1] = temp;
-    //                         removeClass(arr[j],"exchange1");
-    //                         removeClass(arr[j+1],"exchange2");
-    //                         ele2.parentNode.insertBefore(arr[j],arr[j+1]);
-    //                     });
-    //
-    //                 }
-    //             })(j)
-    //
 
-    // }
+    Bubble_sort_animation(ele_arry);
 
 
-
-    // setTimeout(Bubble_sort_animation(ele_arry),3000) ;
-
-
-    // Array.prototype.bubble_sort = function () {
-    //     var i, j, temp;
-    //     for (i = 0; i < this.length - 1; i++)
-    //         for (j = 0; j < this.length - 1 - i; j++)
-    //             if (this[j] > this[j + 1]) {
-    //                 temp = this[j];
-    //                 this[j] = this[j + 1];
-    //                 this[j + 1] = temp;
-    //             }
-    //     return this;
-    // };
 
 </script>
 </body>
