@@ -22,7 +22,7 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            margin: -15px 0 0 -200px;
+            margin: -15px 0 0 0;
             padding-right: 10px;
         }
 
@@ -114,27 +114,20 @@
 <body>
 <div class="bubbleBox" id="bubble_box">
     <ul class="bubbles" id="circle">
-        <li class="ele">122</li>
-        <li class="ele">22</li>
-        <li class="ele">333</li>
-        <li class="ele">41</li>
-        <li class="ele">5</li>
-        <li class="ele">64</li>
-        <li class="ele">723</li>
-        <li class="ele">82</li>
-        <li class="ele">91</li>
-        <li class="ele">10</li>
     </ul>
 
 </div>
 <div class="operation">
     <p>请输入需要排序的数字，并以逗号隔开，或者直接输入希望产生随机数的个数。</p>
     <input type="text" class="in" id="inputbox" value="请输入...">
-    <button type="submit">开始排序</button>
+    <input type="submit" id="start_sort" value="开始排序">
 </div>
 <script>
     var circle = document.getElementById("circle");
     var inputbox = document.getElementById("inputbox");
+    var start_sort = document.getElementById("start_sort");
+    var input_arr;
+
     inputbox.addEventListener("focus",function () {
         if (this.value==="请输入..."){
             this.value = "";
@@ -146,8 +139,56 @@
             this.value = "请输入..."
         }
     });
-    ele_arry = document.querySelectorAll("li.ele");
-    ele_arry = Array.apply(null,ele_arry);
+
+    start_sort.addEventListener("click",function () {
+        input_arr = inputbox.value;
+        input_arr = input_arr.split(",");
+        clearUl();              //清空ul下的li元素
+        if (input_arr === "请输入..."||new RegExp("^[ ]+$").test(input_arr.toString()))        //判断输入是否为空或者全是空格
+            alert("error:请输入需要排序的数字，并以逗号隔开，或者直接输入希望产生随机数的个数。");
+        if (input_arr.length !== 1){
+            input_arr.forEach(function (v,i) {
+                let li_node = document.createElement('li');
+                li_node.innerHTML = v;
+                li_node.setAttribute('class','ele');
+                circle.appendChild(li_node);
+            });
+            setMargin(input_arr.length);                    //设置左margin
+            setTimeout(function (){Bubble_sort_animation()},500);
+        }
+        if (input_arr.length ===1){
+            let num = parseInt(input_arr.toString());
+            for (let i = 0; i <num ; i++) {
+                random =Math.floor(Math.random()*1000);
+                let li_node = document.createElement('li');
+                li_node.innerHTML = random;
+                li_node.setAttribute('class','ele');
+                circle.appendChild(li_node)
+            }
+            setMargin(num);
+            setTimeout(function (){Bubble_sort_animation()},500);
+        }
+
+    });
+
+    function clearUl() {
+        if (circle.innerHTML = '');
+        return true;
+        for (let i = 0; i < circle.length; i++) {
+            circle.remove(circle.firstChild);
+        }
+
+    }
+
+    function setMargin(num) {
+        let m_left = (num*40+10)/2;
+        circle.style.marginLeft = '-'+m_left+'px';
+    }
+
+
+
+
+    //排序过程
 
     function hasClass(element, cName) {
         return !!element.className.match(new RegExp("(\\s|^)" + cName + "(\\s|$)")); // ( \\s|^ ) 判断前面是否有空格
@@ -180,7 +221,9 @@
     }
 
 
-    async function Bubble_sort_animation(arr) {
+    async function Bubble_sort_animation() {
+        var arr = document.querySelectorAll("li.ele");
+        var arr = Array.apply(null,arr);
         let arr_inner = [];
         let temp;
         arr.forEach(function (v, i) {
@@ -201,7 +244,6 @@
             }
     }
 
-    Bubble_sort_animation(ele_arry);
 
 
 
